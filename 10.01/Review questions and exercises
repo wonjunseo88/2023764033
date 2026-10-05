@@ -1,0 +1,233 @@
+1. In an 8-bit binary number, which is the most significant bit (MSB)?
+정답:가장 왼쪽 비트 (Bit 7 / Leftmost bit)
+해설:8비트 이진수(비트 0부터 비트 7까지)에서 MSB(최상위 비트)는 가중치(2의 7승 = 128)가 가장 큰 가장 왼쪽의 비트(bit 7)입니다.
+
+2. What is the decimal representation of each of the following unsigned binary integers?
+a. 00110101
+풀이: 32 + 16 + 4 + 1 = 53
+정답: 53
+
+b. 10010110
+풀이: 128 + 16 + 4 + 2 = 150
+정답: 150
+
+c. 11001100
+풀이: 128 + 64 + 8 + 4 = 204
+정답: 204
+
+3. What is the sum of each pair of binary integers?
+a. 10101111 + 11011011
+풀이: 175 + 219 = 394
+정답: 110001010
+
+b. 10010111 + 11111111
+풀이: 151 + 255 = 406
+정답: 110010110
+
+c. 01110101 + 10101100
+풀이: 117 + 172 = 289
+정답: 100100001
+
+4. Calculate binary 00001101 minus 00000111
+풀이: 00001101 (13) - 00000111 (7) = 6
+정답: 00000110 (또는 110)
+
+5. How many bits are used by each of the following data types?
+a. word: 16 bits (2 bytes)   
+b. doubleword: 32 bits (4 bytes)   
+c. quadword: 64 bits (8 bytes)   
+d. double quadword: 128 bits (16 bytes)
+
+6. What is the minimum number of binary bits needed to represent each of the following unsigned decimal integers?
+a. 12 bits
+b. 16 bits
+c. 16 bits
+
+7. What is the hexadecimal representation of each of the following binary numbers?
+a. 0011 0101 1101 1010
+0011(3) 0101(5) 1101(D) 1010(A)
+정답: 35DA
+b. 1100 1110 1010 0011
+
+1100(C) 1110(E) 1010(A) 0011(3)
+정답: CEA3
+
+c. 1111 1110 1101 1011
+1111(F) 1110(E) 1101(D) 1011(B)
+정답: FEDB
+
+
+8. What is the binary representation of the following hexadecimal numbers?
+a. 0126F9D4
+0000 0001 0010 0110 1111 1001 1101 0100
+
+b. 6ACDFA95
+0110 1010 1100 1101 1111 1010 1001 0101
+
+c. F69BDC2A
+1111 0110 1001 1011 1101 1100 0010 1010
+
+9. What is the unsigned decimal representation of each of the following hexadecimal integers?
+
+a. 3A
+풀이: (3 x 16) + 10 = 48 + 10 = 58
+정답: 58
+
+b. 1BF
+풀이: (1 x 256) + (11 x 16) + 15 = 256 + 176 + 15 = 447
+정답: 447
+
+c. 1001
+
+풀이: (1 x16^3) + 1 = 4096 + 1 = 4097
+정답: 4097
+
+10. What is the unsigned decimal representation of each of the following hexadecimal integers?
+a. 62
+풀이: (6 x 16) + 2 = 96 + 2 = 98
+정답: 98
+b. 4B3
+풀이: (4 x 16^2) + (11 x 16) + 3 = 1024 + 176 + 3 = 1203
+정답: 1203
+
+c. 29F
+풀이: (2 x 16^2) + (9 x 16) + 15 = 512 + 144 + 15 = 671
+정답: 671
+
+
+
+
+
+11. What is the 16-bit hexadecimal representation of each of the following signed decimal integers?
+
+a. -24   
+정답: FFE8
+
+b. -331
+정답: FEB5
+
+12. What is the 16-bit hexadecimal representation of each of the following signed decimal integers?
+a. -21
+정답: FFEB
+
+b. -45
+정답: FFD3
+
+
+13. The following 16-bit hexadecimal numbers represent signed integers. Convert each to decimal.
+
+a. 6BF9
+풀이: 최상위 비트가 0(양수)입니다. (6 x 16^3) + (11 x 16^2) + (15 x 16) + 9 = 24576 + 2816 + 240 + 9 = 27641
+정답 : 27641
+
+b. C123
+
+풀이: 최상위 비트가 1(음수)입니다. 2의 보수 취함: FFFFh -C123h +1 = 3EDDh = (3 x 16^3) + (14 x16^2) + (13 x 16) + 13 = 16093
+정답: -16093
+
+14. The following 16-bit hexadecimal numbers represent signed integers. Convert each to decimal.
+a. 4CD2
+풀이: 최상위 비트가 0(양수)입니다. (4 x 16^3) + (12 x16^2) + (13 x 16) + 2 
+= 16384 + 3072 + 208 + 2 = 19666
+정답: 19666
+
+b. 8230
+풀이: 최상위 비트가 1(음수)입니다. 2의 보수 취함: FFFFh - 8230h + 1 =7CD0h = 
+(7 x 16^3) + (12 x 16^2) + (13 x 16) = 28672 + 3072 + 208 = 32152
+정답: -32152
+
+15. What is the decimal representation of each of the following signed binary numbers?
+a. 10110101
+풀이: 최상위 비트가 1(음수). 2의 보수: 01001011 = 75 
+정답: -75
+b. 00101010
+풀이: 최상위 비트가 0(양수). $00101010 = 32 + 8 + 2 = 42 정답: 42
+c. 11110000
+풀이: 최상위 비트가 1(음수). 2의 보수: 00010000 = 16
+정답: -16
+
+16. What is the decimal representation of each of the following signed binary numbers?
+a. 10000000
+풀이: 8비트 부호 있는 정수의 최솟값 (2^7) 
+정답: -128
+
+b. 11001100
+풀이: 최상위 비트가 1(음수). 2의 보수: 00110100= 32 + 16 + 4 = 52
+정답: -52
+ 
+c. 10110111
+풀이: 최상위 비트가 1(음수). 2의 보수: 01001001= 64 + 8 + 1 = 73
+정답: -73
+
+17. What is the 8-bit binary (two's-complement) representation of each of the following signed decimal integers?
+a. -5
+풀이: +5 = 00000101 비트 반전 후 +1: 11111010 + 1 = 11111011
+정답: 11111011
+b. -42
+풀이: +42 = 00101010. 비트 반전 후 +1: 11010101 + 1 = 11010110
+정답: 11010110
+c. -16
+풀이: +16 = 00010000. 비트 반전 후 +1: $11101111 + 1 = 11110000
+정답: 11110000
+
+18. What is the 8-bit binary (two's-complement) representation of each of the following signed decimal integers?
+a. -72
+풀이: +72 = 01001000 비트 반전 후 +1: 10110111 + 1 = 10111000
+정답: 10111000
+b. -98
+풀이: +98 = 01100010. 비트 반전 후 +1: 10011101 + 1 = 10011110
+정답: 10011110
+c. -26
+풀이: +26 = 00011010_2. 비트 반전 후 +1: 11100101 + 1 = 11100110
+정답: 11100110
+
+19. What is the sum of each pair of hexadecimal integers?
+a. 6B4 + 3FE
+풀이: 1716 + 1022 = 2738 = AB2
+정답: AB2
+
+b. A49 + 6BD
+풀이: $2633 + 1725 = 4358 = 1106
+정답: 1106
+
+20. What is the sum of each pair of hexadecimal integers?
+a. 7C4 + 3BE
+4+14(E) = 18 = 16 x 1 +2 결과 2(올림:1)
+12(C) +11(B) + 1(올림) = 24 = 16 x 1 + 8 결과 8 (올림1)
+7+3+1(올림) = 11 = B
+정답 :B82
+
+b. B69 + 7AD
+9+13(D) = 22 = 16 x 1 +6 결과 6 올림:1
+6+10(A)+1(올림) = 17 = 16 x 1 + 1 결과 1 (올림1)
+11(B) + 7 + 1(올림) = 19 = 16x1+3 결과 3 (올림1)
+정답 : 1316
+
+21. What are the hexadecimal and decimal representations of the ASCII character capital B?
+Hexadecimal: 42h
+Decimal: 66
+해설: 대문자 'A'의 ASCII 코드 값이 십진수 65(41h)이므로, 'B'는 십진수 66, 16진수 42h입니다.
+
+22. What are the hexadecimal and decimal representations of the ASCII character capital G?
+Hexadecimal: 47h
+Decimal: 71
+해설: 'A'(65)로부터 6번째 뒤에 있는 'G'는 $65 + 6 = \text{71}$이며, 16진수로는 47h입니다.
+
+23. Challenge: What is the largest decimal value you can represent, using a 129-bit unsigned integer?
+정답: 2^{129} - 1
+해설: 비트 부호 없는 정수로 표현할 수 있는 가장 큰 값은 2^n - 1입니다.
+
+24. Challenge: What is the largest decimal value you can represent, using a 86-bit signed integer?
+정답: 2^{85} - 1
+해설: n비트 부호 있는 정수(2의 보수 표현 방식)에서 최상위 비트는 부호 비트로 사용되므로, 표현 가능한 가장 큰 양수 값은 2^{n-1} - 1입니다.
+
+25. Create a truth table to show all possible inputs and outputs for the boolean function described by $\neg(A \lor B)$.
+  
+27. If a boolean function has four inputs, how many rows are required for its truth table?
+정답: 16행 (16 rows)
+해설: n개의 입력 변수가 있을 때 가능한 모든 입력 조합의 수는 2^n개입니다. 따라서 4개 입력일 때 2^4 = 16개의 행이 필요합니다.
+
+28. How many selector bits are required for a four-input multiplexer?
+정답: 2비트 (2 selector bits)
+
+
