@@ -1,0 +1,50 @@
+6.10.1 단답형 (Short Answer)
+1. 006Bh
+2. 0092h
+3. 064BBh
+4. 0A857h
+5. 0BFAFF69Fh
+6. 0000000050509B64h(또는 50509B64h)
+• a. 00101101b
+• b. 01001000b
+• c. 01101111b
+• d. 10100011b
+• a. 85h
+• b. 30h
+• c. BFh
+• d. AEh
+• a. CF = 0, ZF = 0, SF = 0
+• b. CF = 0, ZF = 0, SF = 0
+• c. CF = 1, ZF = 0, SF = 1
+10. JCXZJECXZJRCXZ(또는 LOOP계열 명령어)
+11. CF = 0이고 ZF = 0일 때 분기
+12. 1
+13. 1
+14. 0
+15. True(참)
+16.True(참)
+17. 0000000000000080h
+18.0000000000808080h
+19. 0000000080808080h
+
+6.10.2 알고리즘 실습 (Algorithm Workbench)
+and al, 0Fh
+
+2.mov eax, memVal
+mov ebx, eax
+shr ebx, 16
+xor ax, bx
+mov bx, ax
+shr bx, 8
+xor al, bl
+
+3.mov eax, SetX
+not SetY
+and eax, SetY
+
+
+4.cmp dx, cx
+jbe L1
+
+5. cmp ax, cx
+jg L2
