@@ -1,0 +1,105 @@
+7.9.1 단답형
+1. a. 6Ah b. EAh c. FDh d. A9h
+2. a. 9Ah b. 6Ah c. A9h (CF=1) d. 3Ah (CF=1)
+3. DX = 0002h, AX = 2200h
+4. AX = 0306h (AL=06h 몫, AH=03h 나머지)
+5. EAX = 00012340h, EDX = 00000000h
+6. 나눗셈 오버플로 예외 발생 (몫 500400h가 16비트를 초과)
+7. BX = 0066h
+8. 나눗셈 오버플로 예외 발생 (RDX 108h ≥ 제수 100h), 출력 없음
+9.
+오류 4가지: ① OFFSET 누락 ② cx → ecx ③ dec → inc ④ 결과를 result에 저장
+mov ecx,8
+mov esi,OFFSET val1
+mov edi,OFFSET val2
+mov ebx,OFFSET result
+clc
+top:
+mov al,[esi]
+sbb al,[edi]
+mov [ebx],al
+inc esi
+inc edi
+inc ebx
+loop top
+; result = 1AEE1FD3EBFA16EFh
+10. RAX = 0004080C10140000h
+7.9.2 알고리즘 워크벤치
+1.
+shl eax,16
+sar eax,16
+2.
+shr al,1
+jnc done
+or al,80h
+done:
+3.
+shl eax,4
+4.
+shr ebx,2
+5.
+rol dl,4
+6.
+shld dx,ax,1
+
+7.
+shr byteArray+2,1
+rcr byteArray+1,1
+rcr byteArray,1
+; 결과: 40h, 90h, 19h
+8.
+shl wordArray,1
+rcl wordArray+2,1
+rcl wordArray+4,1
+; 결과: 021Ah, 80C9h, 2757h
+9.
+mov ax,-5
+mov bx,3
+imul bx
+mov val1,ax ; -15 (FFF1h)
+10.
+mov ax,-276
+cwd
+mov bx,10
+idiv bx
+mov val1,ax
+
+11.
+mov eax,val2
+mul val3
+mov ebx,val4
+sub ebx,3
+div ebx
+mov val1,eax
+12.
+mov eax,val2
+cdq
+idiv val3
+mov ebx,val1
+add ebx,val2
+imul ebx
+mov val1,eax
+13.
+showDecimal8 PROC
+mov ah,0
+mov bl,10
+div bl
+or ax,3030h
+push eax
+call WriteChar
+pop eax
+mov al,ah
+call WriteChar
+ret
+showDecimal8 ENDP
+14. AX = 0108h (AF = CF = 1)
+15.
+mov eax,y
+sub eax,1
+and eax,n
+mov x,eax
+16.
+mov edx,eax
+sar edx,31
+add eax,edx
+xor eax,edx
