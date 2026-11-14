@@ -1,0 +1,58 @@
+default rel
+global main
+extern printf
+extern scanf
+
+section .data
+    prompt  db "5개의 정수를 입력하세요: ", 0
+    fmt_in  db "%lld", 0
+    fmt_out db "입력한 숫자의 평균: %lld", 10, 0
+
+section .bss
+    numbers resq 5
+
+section .text
+main:
+    push rbp
+    mov rbp, rsp
+    push rbx
+    sub rsp, 40              ; shadow space 32 + 정렬 8
+
+    lea rcx, [prompt]
+    call printf
+
+    xor ebx, ebx
+.input_loop:
+    cmp rbx, 5
+    jge .input_done
+    lea rax, [numbers]
+    lea rdx, [rax + rbx*8]   ; &numbers[rbx]
+    lea rcx, [fmt_in]
+    call scanf
+    inc rbx
+    jmp .input_loop
+
+.input_done:
+    xor eax, eax             ; 합계
+    xor ebx, ebx
+    lea rcx, [numbers]
+.sum_loop:
+    cmp rbx, 5
+    jge .sum_done
+    add rax, [rcx + rbx*8]
+    inc rbx
+    jmp .sum_loop
+
+.sum_done:
+    cqo
+    mov rcx, 5
+    idiv rcx                 ; rax = 합계 / 5
+    mov rdx, rax
+    lea rcx, [fmt_out]
+    call printf
+
+    xor eax, eax
+    add rsp, 40
+    pop rbx
+    pop rbp
+    ret
