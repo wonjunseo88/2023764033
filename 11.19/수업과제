@@ -1,0 +1,242 @@
+; calc.asm - 두 수를 입력받아 사칙연산 결과와 AX,BX,CX,DX 레지스터 출력
+; 입력 범위: 0 ~ 255 (곱셈 결과가 16비트에 들어가도록 제한)
+
+SHOW MACRO msg              ; 문자열 출력 (레지스터 값 보존)
+    push ax
+    push dx
+    mov  dx, offset msg
+    mov  ah, 09h
+    int  21h
+    pop  dx
+    pop  ax
+ENDM
+
+.model small
+.stack 100h
+
+.data
+msg1    db 'Enter first number  (0-255): $'
+msg2    db 13,10,'Enter second number (0-255): $'
+msgAdd  db 13,10,13,10,'A + B = $'
+msgSub  db 13,10,'A - B = $'
+msgMul  db 13,10,'A * B = $'
+msgDiv  db 13,10,'A / B = $'
+msgRem  db '  (remainder = $'
+msgEnd  db ')$'
+msgZero db 'Divide by zero!$'
+msgReg  db 13,10,13,10,'--- Registers (hex) ---$'
+msgAX   db 13,10,'AX = $'
+msgBX   db 13,10,'BX = $'
+msgCX   db 13,10,'CX = $'
+msgDX   db 13,10,'DX = $'
+msgNL   db 13,10,'$'
+
+buf     db 4, 0, 4 dup(0)   ; 입력 버퍼 (최대 3글자)
+numA    dw 0
+numB    dw 0
+rAdd    dw 0
+rSub    dw 0
+rMul    dw 0
+rQuo    dw 0
+rRem    dw 0
+
+.code
+main PROC
+    mov  ax, @data
+    mov  ds, ax
+
+    ; ---- 입력 ----
+    SHOW msg1
+    call ReadNum
+    mov  numA, ax
+    SHOW msg2
+    call ReadNum
+    mov  numB, ax
+
+    ; ---- 연산 ----
+    mov  ax, numA           ; 덧셈
+    add  ax, numB
+    mov  rAdd, ax
+
+    mov  ax, numA           ; 뺄셈
+    sub  ax, numB
+    mov  rSub, ax
+
+    mov  ax, numA           ; 곱셈
+    mul  numB
+    mov  rMul, ax
+
+    cmp  numB, 0            ; 나눗셈
+    je   noDiv
+    mov  ax, numA
+    xor  dx, dx
+    div  numB
+    mov  rQuo, ax
+    mov  rRem, dx
+noDiv:
+
+    ; ---- 결과 출력 ----
+    SHOW msgAdd
+    mov  ax, rAdd
+    call PrintDec
+
+    SHOW msgSub
+    mov  ax, rSub
+    test ax, ax
+    jns  subPos
+    push ax
+    mov  dl, '-'
+    mov  ah, 02h
+    int  21h
+    pop  ax
+    neg  ax
+subPos:
+    call PrintDec
+
+    SHOW msgMul
+    mov  ax, rMul
+    call PrintDec
+
+    SHOW msgDiv
+    cmp  numB, 0
+    jne  divOk
+    SHOW msgZero
+    jmp  regs
+divOk:
+    mov  ax, rQuo
+    call PrintDec
+    SHOW msgRem
+    mov  ax, rRem
+    call PrintDec
+    SHOW msgEnd
+
+    ; ---- 레지스터에 결과를 넣고 내용 출력 ----
+regs:
+    mov  ax, rAdd           ; AX = 합
+    mov  bx, rSub           ; BX = 차
+    mov  cx, rMul           ; CX = 곱
+    mov  dx, rQuo           ; DX = 몫
+
+    SHOW msgReg
+    SHOW msgAX
+    call PrintHex16         ; AX 출력
+
+    SHOW msgBX
+    push ax
+    mov  ax, bx
+    call PrintHex16         ; BX 출력
+    pop  ax
+
+    SHOW msgCX
+    push ax
+    mov  ax, cx
+    call PrintHex16         ; CX 출력
+    pop  ax
+
+    SHOW msgDX
+    push ax
+    mov  ax, dx
+    call PrintHex16         ; DX 출력
+    pop  ax
+
+    SHOW msgNL
+    mov  ax, 4C00h          ; 프로그램 종료
+    int  21h
+main ENDP
+
+; ---------------------------------------------
+; ReadNum : 키보드에서 10진수 입력 -> AX
+; ---------------------------------------------
+ReadNum PROC
+    push bx
+    push cx
+    push dx
+    push si
+    mov  dx, offset buf
+    mov  ah, 0Ah
+    int  21h
+    xor  ax, ax
+    xor  ch, ch
+    mov  cl, [buf+1]        ; 입력된 글자 수
+    mov  si, offset buf + 2
+    jcxz rdDone
+rdNext:
+    mov  dx, 10
+    mul  dx                 ; AX = AX * 10
+    xor  bh, bh
+    mov  bl, [si]
+    sub  bl, '0'
+    add  ax, bx
+    inc  si
+    loop rdNext
+rdDone:
+    pop  si
+    pop  dx
+    pop  cx
+    pop  bx
+    ret
+ReadNum ENDP
+
+; ---------------------------------------------
+; PrintDec : AX(부호 없는 값)를 10진수로 출력
+; ---------------------------------------------
+PrintDec PROC
+    push ax
+    push bx
+    push cx
+    push dx
+    mov  bx, 10
+    xor  cx, cx
+pdDiv:
+    xor  dx, dx
+    div  bx
+    push dx
+    inc  cx
+    test ax, ax
+    jnz  pdDiv
+pdOut:
+    pop  dx
+    add  dl, '0'
+    mov  ah, 02h
+    int  21h
+    loop pdOut
+    pop  dx
+    pop  cx
+    pop  bx
+    pop  ax
+    ret
+PrintDec ENDP
+
+; ---------------------------------------------
+; PrintHex16 : AX를 4자리 16진수 + 'h' 로 출력
+; ---------------------------------------------
+PrintHex16 PROC
+    push ax
+    push bx
+    push cx
+    push dx
+    mov  bx, ax
+    mov  cx, 4
+phLoop:
+    rol  bx, 4
+    mov  dl, bl
+    and  dl, 0Fh
+    cmp  dl, 9
+    jbe  phDigit
+    add  dl, 7
+phDigit:
+    add  dl, '0'
+    mov  ah, 02h
+    int  21h
+    loop phLoop
+    mov  dl, 'h'
+    mov  ah, 02h
+    int  21h
+    pop  dx
+    pop  cx
+    pop  bx
+    pop  ax
+    ret
+PrintHex16 ENDP
+
+END main
